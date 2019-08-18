@@ -1,9 +1,11 @@
 #pragma once
 
 using namespace System;
+using namespace System::Runtime::InteropServices;
 
 namespace NumberOperators {
-	public ref class NumbersAdder
+  [ClassInterface(ClassInterfaceType::None)]
+  public ref class NumbersAdder : System::EnterpriseServices::ServicedComponent
 	{
   public:
     int add(int a, int b) {

@@ -5,6 +5,7 @@ using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Security::Permissions;
+using namespace System::EnterpriseServices;
 
 [assembly:AssemblyTitleAttribute(L"NumbersAdder")];
 [assembly:AssemblyDescriptionAttribute(L"")];
@@ -17,6 +18,11 @@ using namespace System::Security::Permissions;
 
 [assembly:AssemblyVersionAttribute("1.0.*")];
 
-[assembly:ComVisible(false)];
+[assembly:ComVisible(true)];
 
 [assembly:CLSCompliantAttribute(true)];
+
+[assembly:ApplicationName(L"NumberOperators")];
+[assembly:ApplicationActivation(ActivationOption::Server)];
+[assembly:ApplicationAccessControl(false, Authentication = AuthenticationOption::None)];
+[assembly:AssemblyKeyFileAttribute("NumberOperators.snk")];
