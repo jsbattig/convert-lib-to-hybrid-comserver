@@ -7,7 +7,7 @@ using namespace TestDTO;
 namespace NumberOperators {
   [ClassInterface(ClassInterfaceType::None)]
   public ref class NumbersAdder : System::EnterpriseServices::ServicedComponent
-	{
+  {
   public:
     int add(int a, int b) {
       return a + b;
@@ -21,7 +21,7 @@ namespace NumberOperators {
       pair->b = b;
       return pair;
     }
-	};
+  };
 
   public ref class NumbersSubstracter
   {
