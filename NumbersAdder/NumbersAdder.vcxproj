@@ -99,7 +99,8 @@
       <AdditionalDependencies />
     </Link>
     <PostBuildEvent>
-      <Command>regsvcs /u $(TargetPath)</Command>
+      <Command>regsvcs /u $(TargetPath) &gt; nul &amp; set ERRORLEVEL=0
+regsvcs $(TargetPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,7 +124,8 @@
       <AdditionalDependencies />
     </Link>
     <PostBuildEvent>
-      <Command>regsvcs /u $(TargetPath)</Command>
+      <Command>regsvcs /u $(TargetPath) &gt; nul &amp; set ERRORLEVEL=0
+regsvcs $(TargetPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

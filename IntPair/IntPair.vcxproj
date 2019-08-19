@@ -99,9 +99,10 @@
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>
-      <Command>gacutil /u IntPair
+      <Command>gacutil /u IntPair &gt; nul &amp; set ERRORLEVEL=0
 gacutil /i $(TargetPath)
-regsvcs /u $(TargetPath)</Command>
+regsvcs /u $(TargetPath) &gt; nul &amp; set ERRORLEVEL=0
+regsvcs $(TargetPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -126,9 +127,10 @@ regsvcs /u $(TargetPath)</Command>
     </Link>
     <PreBuildEvent />
     <PostBuildEvent>
-      <Command>gacutil /u IntPair
+      <Command>gacutil /u IntPair &gt; nul &amp; set ERRORLEVEL=0
 gacutil /i $(TargetPath)
-regsvcs /u $(TargetPath)</Command>
+regsvcs /u $(TargetPath) &gt; nul &amp; set ERRORLEVEL=0
+regsvcs $(TargetPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
