@@ -23,7 +23,7 @@
     <ProjectGuid>{F971D430-EA7E-4882-A8C7-88AE730E8562}</ProjectGuid>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>NumbersAdder</RootNamespace>
+    <RootNamespace>NumberOperators</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>NumberOperators</ProjectName>
   </PropertyGroup>
@@ -99,7 +99,7 @@
       <AdditionalDependencies />
     </Link>
     <PostBuildEvent>
-      <Command>regsvcs /u $(TargetPath) &gt; nul &amp; set ERRORLEVEL=0
+      <Command>powershell $(SolutionDir)COMUnregisterAssembly\COMUnregisterAssembly.ps1 $(AssemblyName) &gt; nul &amp; set ERRORLEVEL=0
 regsvcs $(TargetPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -124,7 +124,7 @@ regsvcs $(TargetPath)</Command>
       <AdditionalDependencies />
     </Link>
     <PostBuildEvent>
-      <Command>regsvcs /u $(TargetPath) &gt; nul &amp; set ERRORLEVEL=0
+      <Command>powershell $(SolutionDir)COMUnregisterAssembly\COMUnregisterAssembly.ps1 $(AssemblyName) &gt; nul &amp; set ERRORLEVEL=0
 regsvcs $(TargetPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

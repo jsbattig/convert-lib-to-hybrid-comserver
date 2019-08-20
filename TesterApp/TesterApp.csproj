@@ -39,7 +39,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>
-
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -65,7 +64,7 @@
       <Project>{9ec483a5-11a8-4331-8070-70612238c3e0}</Project>
       <Name>IntPair</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NumbersAdder\NumbersAdder.vcxproj">
+    <ProjectReference Include="..\NumberOperators\NumberOperators.vcxproj">
       <Project>{f971d430-ea7e-4882-a8c7-88ae730e8562}</Project>
       <Name>NumberOperators</Name>
     </ProjectReference>
