@@ -4,7 +4,6 @@ using namespace System;
 using namespace System::Runtime::InteropServices;
 
 namespace TestDTO {
-  [ClassInterface(ClassInterfaceType::None)]
   public ref class IntPair : System::EnterpriseServices::ServicedComponent {
   public:
     int a;

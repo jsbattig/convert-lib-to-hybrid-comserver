@@ -4,8 +4,7 @@ using namespace System;
 using namespace System::Runtime::InteropServices;
 using namespace TestDTO;
 
-namespace NumberOperators {
-  [ClassInterface(ClassInterfaceType::None)]
+namespace NumberOperators {  
   public ref class NumbersAdder : System::EnterpriseServices::ServicedComponent
   {
   public:
