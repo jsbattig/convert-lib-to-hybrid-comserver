@@ -2,24 +2,18 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-      None
-    </ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-  </PropertyGroup>
-  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DCF813D7-B880-43BB-9C83-AB910455DD0A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>TesterApp</RootNamespace>
-    <AssemblyName>TesterApp</AssemblyName>
+    <ProjectGuid>{639CF45E-BE88-4BD9-9D44-BEF7A7E75194}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExternalCache</RootNamespace>
+    <AssemblyName>ExternalCache</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,24 +21,20 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,31 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ExternalCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExternalCacheItem\ExternalCacheItem.csproj">
-      <Project>{c3b3e13f-6c20-4961-903b-3f5e6f2d241f}</Project>
-      <Name>ExternalCacheItem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ExternalCache\ExternalCache.csproj">
-      <Project>{639cf45e-be88-4bd9-9d44-bef7a7e75194}</Project>
-      <Name>ExternalCache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IntPair\IntPair.vcxproj">
-      <Project>{9ec483a5-11a8-4331-8070-70612238c3e0}</Project>
-      <Name>IntPair</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NumberOperators\NumberOperators.vcxproj">
-      <Project>{f971d430-ea7e-4882-a8c7-88ae730e8562}</Project>
-      <Name>NumberOperators</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>powershell $(SolutionDir)COMUnregisterAssembly\COMUnregisterAssembly.ps1 $(AssemblyName) &gt; nul &amp; set ERRORLEVEL=0
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\regsvcs $(TargetPath)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

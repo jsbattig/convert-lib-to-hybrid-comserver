@@ -3,9 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using NumberOperators;
 using TestDTO;
+using Ascentis.ExternalCache;
 
 namespace TesterApp
 {
+    class Program
+    {
   class Program
   {
     static void Main(string[] args)
@@ -49,9 +52,19 @@ namespace TesterApp
         for (var i = 0; i < loops; i++)
             adderi.add(10, 2);
         Console.WriteLine("Requests per second (Single threaded using interface): " + (loops / ((float)(Environment.TickCount - initialTicks) / 1000)));
-        
+
+        ExternalCache externalCache = new ExternalCache();
+        externalCache.Add("test", 1);
+        ExternalCacheItem item = new ExternalCacheItem();
+        dynamic container = item.Container;
+        container.Test = "hello";
+        externalCache.Add("test 2", item);
+        var retrieved = (ExternalCacheItem)externalCache.Get("test 2");
+        container = retrieved.Container;
+        Console.WriteLine(container.Test);
+            
         Console.WriteLine("Press any key to finish");
         Console.ReadLine();
     }
-  }
+    }
 }
