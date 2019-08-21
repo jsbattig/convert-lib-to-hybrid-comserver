@@ -4,22 +4,23 @@ using namespace System;
 using namespace System::Runtime::InteropServices;
 using namespace TestDTO;
 
-namespace NumberOperators {  
-  public ref class NumbersAdder : System::EnterpriseServices::ServicedComponent
+namespace NumberOperators {
+  /* Declaring and implementing an interface on the COM class increases performance per call 3x even if
+   * using the COM object directly via a proxy object in the calling process
+   */
+  public interface class INumbersAdder
+  {
+    int add(int a, int b);
+    int add(IntPair^ pair);
+    IntPair^ buildPair(int a, int b);
+  };
+
+  public ref class NumbersAdder : System::EnterpriseServices::ServicedComponent, INumbersAdder
   {
   public:
-    int add(int a, int b) {
-      return a + b;
-    }
-    int add(IntPair^ pair) {
-      return pair->a + pair->b;
-    }
-    IntPair^ buildPair(int a, int b) {
-      IntPair^ pair = gcnew IntPair();
-      pair->a = a;
-      pair->b = b;
-      return pair;
-    }
+    virtual int add(int a, int b);
+    virtual int add(IntPair^ pair);
+    virtual IntPair^ buildPair(int a, int b);
   };
 
   public ref class NumbersSubstracter
