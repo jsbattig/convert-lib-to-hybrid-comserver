@@ -1,5 +1,5 @@
-﻿using Ascentis.Infrastructure;
-using System.Collections.Generic;
+﻿using System.Reflection;
+using Ascentis.Infrastructure;
 
 namespace Ascentis.ExternalCache
 {
@@ -11,6 +11,18 @@ namespace Ascentis.ExternalCache
         {
             Container = new Dynamo();
         }
-        public object this[string key] { get { return Container[key]; } set { Container[key] = value; } }
+
+        public object this[string key]
+        {
+            get => Container[key];
+            set => Container[key] = value;
+        }
+
+        public void Assign(object value)
+        {
+            var type = value.GetType();
+            foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                Container[prop.Name] = prop.GetValue(value);
+        }
     }
 }

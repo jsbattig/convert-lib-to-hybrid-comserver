@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using NumberOperators;
 using TestDTO;
 using Ascentis.ExternalCache;
 
 namespace TesterApp
 {
+    class Tester
+    {
+        public string Val { get; set; }
+    }
+
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             const int loops = 100000;
             const int threadCount = 4;
@@ -31,33 +35,43 @@ namespace TesterApp
             Console.WriteLine("Requests per second (Single threaded): " + (loops / ((float)(Environment.TickCount - initialTicks) / 1000)));
 
             initialTicks = Environment.TickCount;
-            Thread[] threads = new Thread[threadCount];
+            var threads = new Thread[threadCount];
             for (var i = 0; i < threadCount; i++)
-            {
                 (threads[i] = new Thread((innerAdder =>
                 {
                     for (var j = 0; j < loops; j++)
                         ((NumbersAdder)innerAdder).add(10, 2);
                 }))).Start(new NumbersAdder());
-            }
             foreach (var thread in threads)
                 thread.Join();
             Console.WriteLine($"Aggregate requests per second ({threadCount} threads): " + (int)(threadCount * loops / ((float)(Environment.TickCount - initialTicks) / 1000)));
             Console.WriteLine($"Per thread requests per second ({threadCount} threads): " + (int)(loops / ((float)(Environment.TickCount - initialTicks) / 1000)));
 
             initialTicks = Environment.TickCount;
-            INumbersAdder adderi = (INumbersAdder)adder;
+            var adderi = (INumbersAdder)adder;
             for (var i = 0; i < loops; i++)
                 adderi.add(10, 2);
             Console.WriteLine("Requests per second (Single threaded using interface): " + (loops / ((float)(Environment.TickCount - initialTicks) / 1000)));
 
-            ExternalCache externalCache = new ExternalCache();
+            var externalCache = new ExternalCache();
+            externalCache.Select("CacheTest");
             externalCache.Add("test", 1);
-            ExternalCacheItem item = new ExternalCacheItem();
+            var item = new ExternalCacheItem();
             item["Test"] = "hello";
             externalCache.Add("test 2", item);
+            externalCache.Set("test 2", item, new TimeSpan(5000));
             var retrieved = (ExternalCacheItem)externalCache.Get("test 2");
             Console.WriteLine(retrieved.Container.Test);
+            Thread.Sleep(10000);
+            retrieved = (ExternalCacheItem)externalCache.Get("test 2");
+            Console.WriteLine("Retrieved = null:" + (retrieved == null));
+
+            var tester = new Tester {Val = "Value 1"};
+            item = new ExternalCacheItem();
+            item.Assign(tester);
+            externalCache.Add("test 2", item);
+            item =(ExternalCacheItem) externalCache.Get("test 2");
+            Console.WriteLine(item.Container.Val);
 
             Console.WriteLine("Press any key to finish");
             Console.ReadLine();
