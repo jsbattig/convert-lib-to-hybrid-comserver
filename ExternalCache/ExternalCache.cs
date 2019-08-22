@@ -56,8 +56,7 @@ namespace Ascentis.ExternalCache
 
         public object AddOrGetExisting(string key, object value)
         {
-            CheckCache();
-            return _cache.AddOrGetExisting(key, value, null);
+            return Cache.AddOrGetExisting(key, value, null);
         }
 
         public bool Contains(string key)
