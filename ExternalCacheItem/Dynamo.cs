@@ -47,6 +47,11 @@ namespace Ascentis.Infrastructure
             return Properties.Keys;
         }
 
+        public bool PropertyExists(string name)
+        {
+            return Properties.ContainsKey(name);
+        }
+
         public object this[string key]
         {
             get => Properties[key];

@@ -5,24 +5,36 @@ namespace Ascentis.ExternalCache
 {
     public class ExternalCacheItem : System.EnterpriseServices.ServicedComponent
     {
-        public dynamic Container { get; }
+        private readonly Dynamo _container;
+        public dynamic Container => _container;
 
         public ExternalCacheItem()
         {
-            Container = new Dynamo();
+            _container = new Dynamo();
         }
 
         public object this[string key]
         {
-            get => Container[key];
-            set => Container[key] = value;
+            get => _container[key];
+            set => _container[key] = value;
         }
 
-        public void Assign(object value)
+        public void CopyFrom(object value)
         {
             var type = value.GetType();
             foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
-                Container[prop.Name] = prop.GetValue(value);
+                _container[prop.Name] = prop.GetValue(value);
+        }
+
+        public void CopyTo(object target)
+        {
+            var type = target.GetType();
+            foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (!_container.PropertyExists(prop.Name))
+                    continue;
+                prop.SetValue(target, _container[prop.Name]);
+            }
         }
     }
 }

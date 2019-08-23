@@ -30,13 +30,13 @@ namespace Ascentis.ExternalCache
         public void Select(string cacheName)
         {
             // ReSharper disable once InconsistentNaming
-            Cache = Caches.GetOrAdd(cacheName, _cacheName => new MemoryCache(_cacheName));
+            Cache = cacheName == "default" ? MemoryCache.Default : Caches.GetOrAdd(cacheName, _cacheName => new MemoryCache(_cacheName));
         }
 
         private void CheckCache()
         {
-            if(_cache == null)
-                throw new Exception("Must call Select(cacheName) method before using cache");
+            if (_cache != null) return;
+            _cache = MemoryCache.Default;
         }
 
         public bool Add(string key, object item)

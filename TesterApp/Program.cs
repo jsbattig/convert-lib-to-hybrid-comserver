@@ -54,12 +54,11 @@ namespace TesterApp
             Console.WriteLine("Requests per second (Single threaded using interface): " + (loops / ((float)(Environment.TickCount - initialTicks) / 1000)));
 
             var externalCache = new ExternalCache();
-            externalCache.Select("CacheTest");
+            // externalCache.Select("CacheTest");
             externalCache.Add("test", 1);
             var item = new ExternalCacheItem();
             item["Test"] = "hello";
-            externalCache.Add("test 2", item);
-            externalCache.Set("test 2", item, new TimeSpan(5000));
+            externalCache.Add("test 2", item, new TimeSpan(5000));
             var retrieved = (ExternalCacheItem)externalCache.Get("test 2");
             Console.WriteLine(retrieved.Container.Test);
             Thread.Sleep(10000);
@@ -68,10 +67,12 @@ namespace TesterApp
 
             var tester = new Tester {Val = "Value 1"};
             item = new ExternalCacheItem();
-            item.Assign(tester);
+            item.CopyFrom(tester);
             externalCache.Add("test 2", item);
             item =(ExternalCacheItem) externalCache.Get("test 2");
-            Console.WriteLine(item.Container.Val);
+            tester = new Tester();
+            item.CopyTo(tester);
+            Console.WriteLine(tester.Val);
 
             Console.WriteLine("Press any key to finish");
             Console.ReadLine();
